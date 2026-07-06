@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#5c3a21">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>MARA DOORS | Decoración de Ambientes y Carpintería – Diseñamos espacios, creamos soluciones</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+--primary: #5c3a21;
+--accent: #b8691c;
+--bg: #fff;
+--surface: #f5f0e8;
+--text: #1a1a1a;
+--dim: #6b6b6b;
+--muted: #9a9a9a;
+--border: #e8dfd5;
+--wa: #25D366;
+--safe-b: env(safe-area-inset-bottom, 0px);
+--header-h: 108px;
+--tab-h: 60px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body {
+font-family: 'Inter', sans-serif;
+background: var(--bg);
+color: var(--text);
+padding-top: var(--header-h);
+padding-bottom: calc(var(--tab-h) + var(--safe-b));
+}
+body.product-open { padding-top: 56px; }
+body.desktop { padding-bottom: 0; padding-top: 0; }
+/* ═══ TIPOGRAFÍA INDUSTRIAL ═══ */
+h1,h2,h3 {
+font-family: 'Oswald', sans-serif;
+text-transform: uppercase;
+letter-spacing: 1px;
+font-weight: 600;
+}
+h1 { font-weight: 700; }
+/* —— Header fijo con buscador —— */
+.app-header {
+position: fixed;
+top: 0; left: 0; right: 0;
+z-index: 2000;
+background: rgba(255,255,255,0.97);
+backdrop-filter: blur(16px);
+border-bottom: 1px solid var(--border);
+}
+.announcement {
+background: var(--primary);
+color: #fff;
+text-align: center;
+padding: 8px 12px;
+font-size: 0.6rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+font-family: 'Oswald', sans-serif;
+}
+.header-inner { width: 100%; }
+.header-row {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 10px 16px;
+}
+.header-row .logo-btn { flex-shrink: 0; }
+.header-row .search-sticky { flex: 1; min-width: 0; }
+.icon-btn {
+width: 42px; height: 42px;
+border: none;
+background: var(--surface);
+border-radius: 50%;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1rem;
+flex-shrink: 0;
+}
+.logo-btn {
+background: none;
+border: none;
+font-family: 'Oswald', sans-serif;
+font-size: 1.5rem;
+font-weight: 700;
+letter-spacing: 4px;
+cursor: pointer;
+flex-shrink: 0;
+color: var(--primary);
+}
+.search-sticky {
+flex: 1;
+display: flex;
+align-items: center;
+gap: 10px;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: 100px;
+padding: 10px 16px;
+min-width: 0;
+}
+.search-sticky i { color: var(--muted); font-size: 0.85rem; }
+.search-sticky input {
+border: none;
+background: transparent;
+outline: none;
+width: 100%;
+font-size: 0.85rem;
+}
+.cart-btn { position: relative; }
+.cart-badge {
+position: absolute;
+top: 0; right: 0;
+background: var(--accent);
+color: #fff;
+font-size: 0.55rem;
+font-weight: 700;
+min-width: 17px;
+height: 17px;
+border-radius: 9px;
+display: flex;
+align-items: center;
+justify-content: center;
+border: 2px solid #fff;
+}
+/* —— Vistas —— */
+.view { display: none; min-height: calc(100vh - var(--header-h) - var(--tab-h)); }
+.view.active { display: block; }
+body.product-open .view:not(#view-product) { display: none !important; }
+body.product-open #view-product { display: block !important; }
+/* —— Menú lateral —— */
+.overlay {
+position: fixed; inset: 0;
+background: rgba(0,0,0,0.45);
+z-index: 2500;
+opacity: 0;
+visibility: hidden;
+transition: 0.3s;
+}
+.overlay.show { opacity: 1; visibility: visible; }
+.menu-sidebar {
+position: fixed;
+top: 0; left: -100%;
+width: min(320px, 88vw);
+height: 100%;
+height: 100dvh;
+background: #fff;
+z-index: 2600;
+transition: left 0.35s cubic-bezier(0.32,0.72,0,1);
+display: flex;
+flex-direction: column;
+box-shadow: 8px 0 32px rgba(0,0,0,0.1);
+}
+.menu-sidebar.open { left: 0; }
+.menu-head {
+padding: 20px;
+border-bottom: 1px solid var(--border);
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.menu-head h2 { font-size: 1.2rem; }
+.menu-body { flex: 1; overflow-y: auto; padding: 8px 0 16px; }
+.menu-footer {
+flex-shrink: 0;
+padding: 16px 20px calc(16px + var(--safe-b));
+border-top: 1px solid var(--border);
+text-align: center;
+background: var(--surface);
+}
+.menu-footer a {
+font-size: 0.72rem;
+color: var(--muted);
+text-decoration: none;
+letter-spacing: 0.5px;
+transition: color 0.2s;
+}
+.menu-footer a:hover { color: var(--accent); }
+.menu-footer strong {
+color: var(--primary);
+font-weight: 700;
+letter-spacing: 1.5px;
+}
+.mobile-only { display: block; }
+.desktop-only { display: none; }
+.menu-label {
+padding: 16px 20px 8px;
+font-size: 0.65rem;
+font-weight: 700;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(--muted);
+font-family: 'Oswald', sans-serif;
+}
+.menu-link {
+display: flex;
+align-items: center;
+gap: 14px;
+padding: 14px 20px;
+border: none;
+background: none;
+width: 100%;
+text-align: left;
+font-size: 0.9rem;
+cursor: pointer;
+color: var(--text);
+transition: background 0.15s;
+}
+.menu-link:hover, .menu-link:active { background: var(--surface); }
+.menu-link i { width: 20px; color: var(--accent); }
+.menu-promo {
+margin: 8px 16px;
+padding: 14px;
+background: linear-gradient(135deg, #5c3a21, #8b5a2e);
+border-radius: 12px;
+color: #fff;
+cursor: pointer;
+}
+.menu-promo strong { display: block; font-size: 0.85rem; margin-bottom: 4px; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.menu-promo span { font-size: 0.72rem; opacity: 0.85; }
+/* —— Home —— */
+.hero {
+margin: 12px 16px;
+border-radius: 16px;
+height: min(48vh, 380px);
+background: linear-gradient(rgba(92,58,33,0.55),rgba(92,58,33,0.75)),
+url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200') center/cover;
+display: flex;
+align-items: flex-end;
+color: #fff;
+padding: 24px;
+}
+.hero h1 { font-size: 2.2rem; margin: 8px 0; letter-spacing: 2px; }
+.hero p { font-size: 0.85rem; opacity: 0.95; }
+.section-title {
+padding: 24px 16px 12px;
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+}
+.section-title h2 { font-size: 1.4rem; letter-spacing: 1.5px; }
+.section-title span { font-size: 0.75rem; color: var(--dim); }
+.link-btn {
+background: none; border: none;
+color: var(--accent);
+font-size: 0.72rem;
+font-weight: 700;
+text-transform: uppercase;
+cursor: pointer;
+font-family: 'Oswald', sans-serif;
+letter-spacing: 1px;
+}
+.promo-scroll, .cat-scroll {
+display: flex;
+gap: 12px;
+overflow-x: auto;
+padding: 0 16px 16px;
+scroll-snap-type: x mandatory;
+scrollbar-width: none;
+}
+.promo-scroll::-webkit-scrollbar, .cat-scroll::-webkit-scrollbar { display: none; }
+.promo-card {
+flex: 0 0 82%;
+scroll-snap-align: start;
+border-radius: 12px;
+overflow: hidden;
+min-height: 130px;
+position: relative;
+cursor: pointer;
+}
+.promo-card img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+/* ═══ PROMOCIONES: TÍTULOS ALINEADOS ABAJO ═══ */
+.promo-body {
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+padding: 18px 20px 20px;
+background: linear-gradient(transparent, rgba(92,58,33,0.95));
+color: #fff;
+z-index: 1;
+}
+.promo-body .badge {
+font-size: 0.6rem;
+font-weight: 700;
+background: var(--accent);
+padding: 4px 8px;
+border-radius: 4px;
+align-self: flex-start;
+margin-bottom: 8px;
+display: inline-block;
+font-family: 'Oswald', sans-serif;
+letter-spacing: 1px;
+}
+.promo-body strong {
+display: block;
+font-size: 1.15rem;
+font-family: 'Oswald', sans-serif;
+text-transform: uppercase;
+letter-spacing: 0.8px;
+line-height: 1.15;
+margin-bottom: 4px;
+}
+.promo-body p {
+font-size: 0.75rem;
+opacity: 0.9;
+margin: 0;
+}
+.badge { font-size: 0.6rem; font-weight: 700; background: var(--accent); padding: 4px 8px; border-radius: 4px; align-self: flex-start; margin-bottom: 6px; }
+.cat-card {
+flex: 0 0 42%;
+scroll-snap-align: start;
+aspect-ratio: 3/4;
+border-radius: 12px;
+overflow: hidden;
+position: relative;
+cursor: pointer;
+}
+.cat-card img { width: 100%; height: 100%; object-fit: cover; }
+.cat-card span {
+position: absolute; bottom: 0; left: 0; right: 0;
+padding: 16px;
+background: linear-gradient(transparent, rgba(92,58,33,0.85));
+color: #fff;
+font-family: 'Oswald', sans-serif;
+font-size: 1.1rem;
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+/* —— Tienda grid —— */
+.filters {
+display: flex;
+gap: 8px;
+padding: 0 16px 16px;
+overflow-x: auto;
+scrollbar-width: none;
+}
+.filter-chip {
+flex-shrink: 0;
+padding: 9px 16px;
+border-radius: 100px;
+border: 1px solid var(--border);
+background: #fff;
+font-size: 0.72rem;
+font-weight: 600;
+text-transform: uppercase;
+cursor: pointer;
+font-family: 'Oswald', sans-serif;
+letter-spacing: 0.8px;
+}
+.filter-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 14px;
+padding: 0 16px 24px;
+}
+.card {
+cursor: pointer;
+border: none;
+background: none;
+text-align: left;
+width: 100%;
+padding: 0;
+font-family: inherit;
+color: inherit;
+}
+.card-img {
+aspect-ratio: 3/4;
+border-radius: 12px;
+overflow: hidden;
+background: var(--surface);
+margin-bottom: 10px;
+}
+.card-img img { width: 100%; height: 100%; object-fit: cover; }
+.card h4 { font-size: 0.85rem; font-weight: 600; line-height: 1.3; margin-bottom: 4px; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.card .sku { font-size: 0.62rem; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 4px; }
+.card .row { display: flex; justify-content: space-between; align-items: center; }
+.card .price { font-weight: 700; font-size: 0.9rem; color: var(--accent); font-family: 'Oswald', sans-serif; }
+/* —— Página producto (internacional) —— */
+#view-product { padding-bottom: 100px; }
+.pd-topbar {
+position: fixed;
+top: 0; left: 0; right: 0;
+height: 56px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 12px;
+background: rgba(255,255,255,0.95);
+backdrop-filter: blur(12px);
+z-index: 2100;
+border-bottom: 1px solid var(--border);
+}
+.pd-gallery { background: #f8f8f8; }
+.pd-main-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+.pd-thumbs {
+display: flex;
+gap: 8px;
+padding: 12px 16px;
+overflow-x: auto;
+}
+.pd-thumb {
+flex-shrink: 0;
+width: 64px;
+height: 80px;
+border-radius: 8px;
+overflow: hidden;
+border: 2px solid transparent;
+cursor: pointer;
+padding: 0;
+background: none;
+}
+.pd-thumb.active { border-color: var(--primary); }
+.pd-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.pd-body { padding: 20px 16px; max-width: 720px; margin: 0 auto; }
+.pd-breadcrumb { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Oswald', sans-serif; }
+.pd-breadcrumb button { background: none; border: none; color: var(--accent); cursor: pointer; font-size: inherit; }
+.pd-name { font-size: 1.6rem; line-height: 1.15; margin-bottom: 8px; }
+.pd-sku { font-size: 0.75rem; color: var(--muted); margin-bottom: 12px; }
+.pd-sku code { background: var(--surface); padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+.pd-price { font-size: 1.6rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; font-family: 'Oswald', sans-serif; }
+.pd-stock { font-size: 0.75rem; color: #2d7a4f; margin-bottom: 20px; }
+.opt-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 10px; font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+.colors, .sizes { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+.color-btn {
+width: 38px; height: 38px;
+border-radius: 50%;
+border: 2px solid var(--border);
+cursor: pointer;
+}
+.color-btn.active { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--primary); }
+.size-btn {
+min-width: 48px; height: 48px;
+border: 1px solid var(--border);
+background: #fff;
+border-radius: 8px;
+font-weight: 600;
+cursor: pointer;
+font-family: 'Oswald', sans-serif;
+}
+.size-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.pd-tabs {
+display: flex;
+gap: 0;
+border-bottom: 1px solid var(--border);
+margin: 24px 0 16px;
+}
+.pd-tab {
+flex: 1;
+padding: 12px;
+border: none;
+background: none;
+font-size: 0.75rem;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+color: var(--muted);
+cursor: pointer;
+border-bottom: 2px solid transparent;
+margin-bottom: -1px;
+font-family: 'Oswald', sans-serif;
+}
+.pd-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.pd-panel { display: none; font-size: 0.9rem; line-height: 1.7; color: var(--dim); }
+.pd-panel.active { display: block; }
+.detail-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.detail-table td { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+.detail-table td:first-child { color: var(--muted); width: 40%; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.combine-section {
+padding: 28px 0 0;
+border-top: 1px solid var(--border);
+margin-top: 28px;
+}
+.combine-section h3 { font-size: 1.2rem; margin-bottom: 4px; }
+.combine-section p { font-size: 0.8rem; color: var(--dim); margin-bottom: 16px; }
+.combine-scroll {
+display: flex;
+gap: 12px;
+overflow-x: auto;
+padding-bottom: 8px;
+scrollbar-width: none;
+}
+.combine-card {
+flex: 0 0 130px;
+cursor: pointer;
+border: none;
+background: none;
+text-align: left;
+padding: 0;
+font-family: inherit;
+}
+.combine-card img {
+width: 100%;
+aspect-ratio: 3/4;
+object-fit: cover;
+border-radius: 10px;
+margin-bottom: 8px;
+}
+.combine-card span { font-size: 0.75rem; font-weight: 600; display: block; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.combine-card em { font-size: 0.72rem; color: var(--accent); font-style: normal; font-weight: 700; font-family: 'Oswald', sans-serif; }
+.pd-sticky-bar {
+position: fixed;
+bottom: calc(var(--tab-h) + var(--safe-b));
+left: 0; right: 0;
+padding: 12px 16px;
+background: #fff;
+border-top: 1px solid var(--border);
+z-index: 2050;
+display: flex;
+gap: 12px;
+align-items: center;
+}
+body.product-open .pd-sticky-bar { bottom: var(--safe-b); }
+body.desktop.product-open .pd-sticky-bar { bottom: 0; }
+.pd-sticky-bar .price-mini { font-weight: 700; font-size: 1rem; flex: 1; color: var(--accent); font-family: 'Oswald', sans-serif; }
+.btn-add {
+flex: 2;
+background: var(--primary);
+color: #fff;
+border: none;
+padding: 14px 20px;
+border-radius: 8px;
+font-weight: 700;
+font-size: 0.78rem;
+letter-spacing: 1px;
+text-transform: uppercase;
+cursor: pointer;
+font-family: 'Oswald', sans-serif;
+}
+/* —— Nosotros —— */
+.about-hero {
+background: var(--primary);
+color: #fff;
+padding: 40px 24px;
+text-align: center;
+}
+.about-hero h1 { font-size: 2.2rem; margin-bottom: 8px; }
+.about-content { padding: 24px 16px; max-width: 640px; margin: 0 auto; }
+.about-block { margin-bottom: 28px; }
+.about-block h3 { font-size: 1.2rem; margin-bottom: 10px; }
+.about-block p { font-size: 0.9rem; line-height: 1.7; color: var(--dim); }
+.about-info {
+display: grid;
+gap: 12px;
+margin-top: 20px;
+}
+.info-card {
+display: flex;
+gap: 14px;
+padding: 16px;
+background: var(--surface);
+border-radius: 12px;
+align-items: flex-start;
+}
+.info-card i { color: var(--accent); font-size: 1.1rem; margin-top: 2px; }
+.info-card strong { display: block; font-size: 0.85rem; margin-bottom: 4px; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.info-card span { font-size: 0.8rem; color: var(--dim); }
+/* —— Carrito —— */
+.cart-panel {
+position: fixed;
+top: 0; right: -100%;
+width: min(400px, 100%);
+height: 100dvh;
+background: #fff;
+z-index: 2700;
+transition: right 0.35s;
+display: flex;
+flex-direction: column;
+padding: 20px 16px calc(20px + var(--safe-b));
+}
+.cart-panel.open { right: 0; }
+.cart-item {
+display: flex;
+gap: 12px;
+padding: 14px 0;
+border-bottom: 1px solid var(--border);
+}
+.cart-item img { width: 56px; height: 72px; object-fit: cover; border-radius: 8px; }
+.cart-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
+.btn-wa {
+width: 100%;
+padding: 14px;
+background: var(--wa);
+color: #fff;
+border: none;
+border-radius: 8px;
+font-weight: 700;
+cursor: pointer;
+margin-top: 12px;
+font-family: 'Oswald', sans-serif;
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+/* —— Bottom nav —— */
+.bottom-nav {
+position: fixed;
+bottom: 0; left: 0; right: 0;
+height: calc(var(--tab-h) + var(--safe-b));
+padding-bottom: var(--safe-b);
+background: #fff;
+border-top: 1px solid var(--border);
+display: flex;
+z-index: 2000;
+box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+}
+.tab {
+flex: 1;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 3px;
+border: none;
+background: none;
+color: var(--muted);
+font-size: 0.55rem;
+font-weight: 600;
+text-transform: uppercase;
+cursor: pointer;
+padding: 6px 2px;
+font-family: 'Oswald', sans-serif;
+letter-spacing: 0.5px;
+}
+.tab i { font-size: 1.1rem; }
+.tab.active { color: var(--primary); }
+.tab.active i { color: var(--accent); }
+.toast {
+position: fixed;
+bottom: calc(var(--tab-h) + var(--safe-b) + 80px);
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: var(--primary);
+color: #fff;
+padding: 12px 20px;
+border-radius: 100px;
+font-size: 0.8rem;
+z-index: 9999;
+opacity: 0;
+transition: 0.3s;
+pointer-events: none;
+font-family: 'Oswald', sans-serif;
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.empty { text-align: center; padding: 48px 20px; color: var(--muted); grid-column: 1 / -1; }
+/* Contenedor centrado (PC) */
+.site-wrap {
+width: 100%;
+max-width: 1200px;
+margin-left: auto;
+margin-right: auto;
+padding-left: 24px;
+padding-right: 24px;
+}
+/* WhatsApp flotante */
+.wa-float-wrap {
+position: fixed;
+right: 16px;
+bottom: calc(var(--tab-h) + var(--safe-b) + 20px);
+z-index: 3500;
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+gap: 10px;
+pointer-events: none;
+}
+.wa-float-wrap > * { pointer-events: auto; }
+.wa-float-msg {
+background: #fff;
+color: var(--text);
+font-size: 0.78rem;
+line-height: 1.35;
+padding: 10px 14px;
+border-radius: 12px 12px 4px 12px;
+box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+border: 1px solid var(--border);
+max-width: 200px;
+font-weight: 500;
+}
+.wa-float-btn {
+width: 56px;
+height: 56px;
+border-radius: 50%;
+background: var(--wa);
+color: #fff;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 28px;
+box-shadow: 0 4px 16px rgba(37,211,102,0.45);
+text-decoration: none;
+border: none;
+cursor: pointer;
+transition: transform 0.2s;
+}
+.wa-float-btn:hover { transform: scale(1.06); }
+.wa-float-btn:active { transform: scale(0.95); }
+body.product-open .wa-float-wrap {
+bottom: calc(80px + var(--safe-b));
+}
+.footer-dev {
+color: rgba(255,255,255,0.55);
+font-size: 0.75rem;
+text-decoration: none;
+transition: color 0.2s;
+}
+.footer-dev:hover { color: var(--accent); }
+.footer-dev strong { color: rgba(255,255,255,0.9); letter-spacing: 1px; }
+/* Botón añadir en página producto (escritorio) */
+.pd-actions-desktop { display: none; margin-top: 24px; }
+.pd-actions-desktop .btn-add { width: 100%; max-width: 360px; }
+.pd-combine-wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px 24px; }
+/* Footer web (escritorio) */
+.site-footer {
+background: var(--primary);
+color: #fff;
+padding: 48px 32px 28px;
+margin-top: 48px;
+}
+.site-footer-inner {
+max-width: 1280px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: 1.2fr 1fr 1fr;
+gap: 40px;
+padding-bottom: 32px;
+border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.site-footer h3 { font-size: 1.6rem; letter-spacing: 4px; margin-bottom: 12px; }
+.site-footer p { font-size: 0.85rem; opacity: 0.75; line-height: 1.6; }
+.site-footer h4 { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; opacity: 0.5; font-family: 'Oswald', sans-serif; }
+.site-footer ul { list-style: none; }
+.site-footer li { margin-bottom: 10px; }
+.site-footer button, .site-footer a {
+background: none; border: none; color: rgba(255,255,255,0.85);
+font-size: 0.85rem; cursor: pointer; text-decoration: none;
+font-family: inherit; padding: 0;
+}
+.site-footer button:hover, .site-footer a:hover { color: var(--accent); }
+.site-footer-bottom {
+max-width: 1280px;
+margin: 24px auto 0;
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-size: 0.75rem;
+opacity: 0.5;
+}
+/* ═══ ESCRITORIO: experiencia web clásica ═══ */
+@media (min-width: 769px) {
+.mobile-only { display: none !important; }
+.desktop-only { display: block; }
+body {
+padding-top: 0;
+padding-bottom: 0;
+background: #fff;
+}
+body.product-open {
+padding-top: 0;
+padding-bottom: 0;
+}
+.bottom-nav { display: none; }
+.app-header {
+position: sticky;
+top: 0;
+box-shadow: 0 1px 0 var(--border);
+}
+.announcement { font-size: 0.65rem; padding: 10px; }
+.header-mobile { display: none !important; }
+.header-desktop {
+display: grid !important;
+grid-template-columns: 1fr auto 1fr;
+align-items: center;
+max-width: 1200px;
+margin: 0 auto;
+padding: 20px 24px 22px;
+gap: 24px;
+}
+.header-nav-left {
+display: flex;
+align-items: center;
+justify-content: flex-end;
+gap: 32px;
+}
+.logo-center {
+font-size: 2.2rem;
+justify-self: center;
+grid-column: 2;
+}
+.header-nav-right {
+display: flex;
+align-items: center;
+justify-content: flex-start;
+gap: 14px;
+}
+.header-nav-right .search-sticky {
+flex: 1;
+max-width: 300px;
+border-radius: 4px;
+}
+.desktop-nav { display: flex; align-items: center; gap: 32px; }
+.desktop-nav button {
+background: none;
+border: none;
+font-size: 0.8rem;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 1.5px;
+cursor: pointer;
+color: var(--text);
+padding: 4px 0;
+position: relative;
+white-space: nowrap;
+font-family: 'Oswald', sans-serif;
+}
+.desktop-nav button:hover { color: var(--accent); }
+.desktop-nav button.active::after {
+content: '';
+position: absolute;
+bottom: -6px;
+left: 0; right: 0;
+height: 2px;
+background: var(--accent);
+}
+.wa-float-wrap { bottom: 28px; }
+body.product-open .wa-float-wrap { bottom: 28px; }
+.view { min-height: auto; }
+body.product-open .view:not(#view-product) { display: none !important; }
+.hero {
+margin: 24px auto 0;
+border-radius: 12px;
+height: min(58vh, 480px);
+max-width: 1200px;
+}
+.hero h1 { font-size: 3rem; }
+.section-title {
+max-width: 1200px;
+margin-left: auto;
+margin-right: auto;
+padding-left: 24px;
+padding-right: 24px;
+}
+.filters {
+max-width: 1200px;
+margin-left: auto;
+margin-right: auto;
+padding-left: 24px;
+padding-right: 24px;
+}
+.promo-scroll, .cat-scroll {
+max-width: 1200px;
+margin-left: auto;
+margin-right: auto;
+padding-left: 24px;
+padding-right: 24px;
+}
+.grid {
+grid-template-columns: repeat(4, 1fr);
+gap: 24px;
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 24px 48px;
+}
+.cat-scroll { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; overflow: visible; }
+.cat-card { flex: unset; max-width: none; }
+/* ═══ PROMOCIONES DESKTOP: altura fija + contenido abajo ═══ */
+.promo-scroll { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; overflow: visible; }
+.promo-card { flex: unset; min-height: 220px; height: 220px; }
+.about-hero {
+max-width: 1200px;
+margin: 24px auto 0;
+border-radius: 12px;
+padding: 64px 32px;
+}
+.about-hero h1 { font-size: 3rem; }
+.about-content { max-width: 720px; padding: 48px 24px 80px; }
+.about-info { grid-template-columns: 1fr 1fr; }
+.site-footer-inner,
+.site-footer-bottom { max-width: 1200px; }
+/* Producto: layout e-commerce dos columnas */
+#view-product { padding-bottom: 0; }
+.pd-page-wrap {
+max-width: 1200px;
+margin: 0 auto;
+padding: 32px 24px 0;
+display: grid;
+grid-template-columns: 1.05fr 0.95fr;
+gap: 56px;
+align-items: start;
+}
+.pd-gallery { background: transparent; }
+.pd-main-img { border-radius: 8px; aspect-ratio: 4/5; }
+.pd-thumbs { padding: 16px 0; }
+.pd-body { padding: 0; max-width: none; }
+.pd-name { font-size: 2.2rem; }
+.pd-sticky-bar { display: none !important; }
+.pd-actions-desktop { display: block; }
+.combine-section { margin-top: 0; padding-top: 0; border: none; }
+.combine-scroll { display: grid; grid-template-columns: repeat(4, 1fr); overflow: visible; gap: 16px; }
+.combine-card { flex: unset; }
+.pd-combine-wrap {
+max-width: 1200px;
+padding: 0 24px 48px;
+}
+.pd-combine-wrap .combine-section h3 { font-size: 1.4rem; }
+.cart-panel { max-width: 440px; }
+.toast { bottom: 32px; }
+body.product-open #app-header { display: block !important; }
+}
+.header-desktop { display: none; }
+@media (max-width: 768px) {
+.site-footer { display: none; }
+body.product-open .bottom-nav { display: none; }
+body.product-open { padding-bottom: calc(72px + var(--safe-b)); }
+}
+</style>
+</head>
+<body>
+<header class="app-header" id="app-header">
+<div class="announcement"> Productos de calidad · Diseño a medida y personalizado · Corte gratuito</div>
+<div class="header-inner">
+<div class="header-row header-mobile">
+<button type="button" class="logo-btn" onclick="App.go('home')">MARA DOORS</button>
+<div class="search-sticky">
+<i class="fas fa-search"></i>
+<input type="search" id="search-input" placeholder="Buscar puertas, ventanas, muebles..." autocomplete="off">
+</div>
+<button type="button" class="icon-btn cart-btn" onclick="App.openCart()" aria-label="Bolsa">
+<i class="fas fa-shopping-bag"></i>
+<span class="cart-badge" id="cart-badge">0</span>
+</button>
+</div>
+<div class="header-desktop">
+<nav class="desktop-nav header-nav-left">
+<button type="button" data-nav="home" onclick="App.go('home')">Inicio</button>
+<button type="button" data-nav="shop" onclick="App.go('shop')">Catálogo</button>
+<button type="button" data-nav="about" onclick="App.go('about')">Nosotros</button>
+</nav>
+<button type="button" class="logo-btn logo-center" onclick="App.go('home')">MARA DOORS</button>
+<div class="header-nav-right">
+<div class="search-sticky">
+<i class="fas fa-search"></i>
+<input type="search" id="search-input-desktop" placeholder="Buscar puertas, ventanas, muebles..." autocomplete="off">
+</div>
+<button type="button" class="icon-btn cart-btn" onclick="App.openCart()" aria-label="Bolsa">
+<i class="fas fa-shopping-bag"></i>
+<span class="cart-badge" id="cart-badge-desk">0</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<div class="overlay" id="overlay" onclick="App.closeAll()"></div>
+<aside class="menu-sidebar" id="menu-sidebar">
+<div class="menu-head">
+<h2>Menú</h2>
+<button type="button" class="icon-btn" onclick="App.closeMenu()" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+</div>
+<div class="menu-body" id="menu-content"></div>
+<div class="menu-footer">
+<a id="developer-link" href="#" target="_blank" rel="noopener noreferrer">
+Desarrollado por <strong>KEY STUDIO</strong>
+</a>
+</div>
+</aside>
+<main id="view-home" class="view active">
+<div class="hero">
+<div>
+<p style="font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;font-family:'Oswald',sans-serif;">Decoración de Ambientes y Carpintería</p>
+<h1>Diseñamos espacios,<br>creamos soluciones</h1>
+<p>Productos de calidad que combinan diseño, funcionalidad y durabilidad.</p>
+</div>
+</div>
+<div class="section-title">
+<div><h2>Promociones</h2><span>Ofertas activas</span></div>
+</div>
+<div class="promo-scroll" id="home-promos"></div>
+<div class="section-title">
+<div><h2>Categorías</h2></div>
+<button type="button" class="link-btn" onclick="App.go('shop')">Ver catálogo</button>
+</div>
+<div class="cat-scroll" id="home-cats"></div>
+<div class="section-title"><h2>Productos destacados</h2></div>
+<div class="grid" id="home-featured"></div>
+</main>
+<main id="view-shop" class="view">
+<div class="section-title">
+<div><h2>Catálogo</h2><span id="shop-count"></span></div>
+</div>
+<div class="filters" id="shop-filters"></div>
+<div class="grid" id="shop-grid"></div>
+</main>
+<main id="view-product" class="view">
+<div class="pd-topbar mobile-only" id="pd-topbar">
+<button type="button" class="icon-btn" onclick="App.closeProduct()" aria-label="Volver"><i class="fas fa-arrow-left"></i></button>
+<button type="button" class="icon-btn cart-btn" onclick="App.openCart()">
+<i class="fas fa-shopping-bag"></i>
+<span class="cart-badge" id="cart-badge-pd">0</span>
+</button>
+</div>
+<div class="pd-page-wrap">
+<div class="pd-gallery">
+<img class="pd-main-img" id="pd-main-img" src="" alt="">
+<div class="pd-thumbs" id="pd-thumbs"></div>
+</div>
+<div class="pd-body">
+<p class="pd-breadcrumb">
+<button type="button" onclick="App.go('shop')">Catálogo</button>
+/ <span id="pd-cat-label"></span>
+</p>
+<h1 class="pd-name" id="pd-name"></h1>
+<p class="pd-sku">SKU: <code id="pd-sku"></code></p>
+<p class="pd-price" id="pd-price"></p>
+<p class="pd-stock"><i class="fas fa-check-circle"></i> En stock · Productos de calidad</p>
+<p class="opt-label">Acabado</p>
+<div class="colors" id="pd-colors"></div>
+<p class="opt-label">Medida</p>
+<div class="sizes" id="pd-sizes"></div>
+<div class="pd-actions-desktop">
+<button type="button" class="btn-add" onclick="App.addToCart()">Solicitar cotización — <span id="pd-price-btn"></span></button>
+</div>
+<div class="pd-tabs">
+<button type="button" class="pd-tab active" data-tab="desc" onclick="App.switchTab('desc')">Descripción</button>
+<button type="button" class="pd-tab" data-tab="details" onclick="App.switchTab('details')">Detalles</button>
+<button type="button" class="pd-tab" data-tab="ship" onclick="App.switchTab('ship')">Entrega</button>
+</div>
+<div class="pd-panel active" id="panel-desc"></div>
+<div class="pd-panel" id="panel-details"></div>
+<div class="pd-panel" id="panel-ship">
+<p>Entrega inmediata en Yacuiba y envíos a todo el país. Pedidos procesados en 24-48 h.</p>
+<ul style="margin-top:12px;padding-left:18px;">
+<li>Corte gratuito en todas las medidas</li>
+<li>Seguimiento por WhatsApp al 770 45408</li>
+<li>Asesoría personalizada en diseño y carpintería</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="pd-combine-wrap">
+<section class="combine-section">
+<h3>Combínalo con</h3>
+<p>Completa tu proyecto con estos productos</p>
+<div class="combine-scroll" id="pd-combine"></div>
+</section>
+</div>
+<div class="pd-sticky-bar mobile-only">
+<span class="price-mini" id="pd-price-sticky"></span>
+<button type="button" class="btn-add" onclick="App.addToCart()">Solicitar cotización</button>
+</div>
+</main>
+<main id="view-about" class="view">
+<div class="about-hero">
+<h1>MARA DOORS</h1>
+<p>Decoración de Ambientes y Carpintería · Yacuiba, Bolivia</p>
+</div>
+<div class="about-content" id="about-content"></div>
+</main>
+<aside class="cart-panel" id="cart-panel">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+<h2>Mi pedido</h2>
+<button type="button" class="icon-btn" onclick="App.closeCart()"><i class="fas fa-times"></i></button>
+</div>
+<div id="cart-items" style="flex:1;overflow-y:auto;"></div>
+<div class="cart-footer">
+<div style="display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem;margin-bottom:8px;">
+<span>Total estimado</span><span id="cart-total">Bs. 0</span>
+</div>
+<button type="button" class="btn-wa" onclick="App.whatsapp()"><i class="fab fa-whatsapp"></i> Pedir por WhatsApp</button>
+</div>
+</aside>
+<div class="toast" id="toast"></div>
+<footer class="site-footer desktop-only">
+<div class="site-footer-inner">
+<div>
+<h3>MARA DOORS</h3>
+<p>Decoración de ambientes y carpintería. Diseñamos espacios, creamos soluciones que duran. Calidad, diseño y funcionalidad en cada proyecto.</p>
+</div>
+<div>
+<h4>Navegación</h4>
+<ul>
+<li><button type="button" onclick="App.go('home')">Inicio</button></li>
+<li><button type="button" onclick="App.go('shop')">Catálogo</button></li>
+<li><button type="button" onclick="App.go('about')">Nosotros</button></li>
+</ul>
+</div>
+<div>
+<h4>Contacto</h4>
+<ul>
+<li><button type="button" onclick="App.whatsapp()">WhatsApp: 770 45408</button></li>
+<li><span style="opacity:0.85;font-size:0.85rem;">Calle Ballivian entre 13 y 14, Yacuiba - Bolivia</span></li>
+</ul>
+</div>
+</div>
+<div class="site-footer-bottom">
+<span>© <span id="footer-year"></span> Mara Doors. Todos los derechos reservados.</span>
+<a id="footer-developer" class="footer-dev" href="#" target="_blank" rel="noopener noreferrer">
+Desarrollado por <strong>KEY STUDIO</strong>
+</a>
+</div>
+</footer>
+<div class="wa-float-wrap" id="wa-float-wrap">
+<div class="wa-float-msg">¿Necesitas un diseño personalizado? ¡Estamos para ayudarte!</div>
+<button type="button" class="wa-float-btn" onclick="App.whatsappHelp()" aria-label="WhatsApp">
+<i class="fab fa-whatsapp"></i>
+</button>
+</div>
+<nav class="bottom-nav" id="bottom-nav">
+<button type="button" class="tab active" data-view="home" onclick="App.go('home')"><i class="fas fa-home"></i><span>Inicio</span></button>
+<button type="button" class="tab" data-view="shop" onclick="App.go('shop')"><i class="fas fa-store"></i><span>Catálogo</span></button>
+<button type="button" class="tab" data-view="menu" onclick="App.openMenu()"><i class="fas fa-bars"></i><span>Menú</span></button>
+<button type="button" class="tab" data-view="about" onclick="App.go('about')"><i class="fas fa-info-circle"></i><span>Nosotros</span></button>
+<button type="button" class="tab" data-view="cart" onclick="App.openCart()"><i class="fas fa-shopping-bag"></i><span>Pedido</span></button>
+</nav>
+<script>
+const CONFIG = {
+phone: '59177045408',
+developer: {
+name: 'KEY STUDIO',
+url: 'https://keystudio.bo'
+},
+store: {
+name: 'Mara Doors',
+tagline: 'Decoración de Ambientes y Carpintería',
+story: 'Somos una empresa boliviana dedicada a la decoración de ambientes y carpintería en Yacuiba. Nos especializamos en crear soluciones personalizadas que combinan diseño, funcionalidad y durabilidad. Cada proyecto es único y lo tratamos con la dedicación que se merece.',
+mission: 'Transformar espacios en ambientes funcionales y estéticamente agradables, ofreciendo productos de calidad con diseño a medida, atención personalizada y entrega inmediata. Queremos ser tu aliado en cada proyecto de carpintería.',
+hours: 'Lun – Sáb: 8:00 – 18:00',
+address: 'Calle Ballivian entre 13 y 14, Yacuiba - Bolivia',
+email: 'ventas@maradoors.bo',
+instagram: '@maradoors'
+}
+};
+const categories = [
+{ id: 'puertas', name: 'Puertas', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600' },
+{ id: 'ventanas', name: 'Ventanas', image: 'https://images.unsplash.com/photo-1503708928676-1cb794ad65fa?w=600' },
+{ id: 'muebles', name: 'Muebles y Melaminas', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600' },
+{ id: 'portones', name: 'Portones Eléctricos', image: 'https://images.unsplash.com/photo-1621255169746-42c0a398b548?w=600' },
+{ id: 'tableros', name: 'Tableros y Chapas', image: 'https://images.unsplash.com/photo-1610505466122-b1a6e2ab8f1f?w=600' },
+{ id: 'accesorios', name: 'Accesorios', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600' }
+];
+const promotions = [
+{ badge: 'CALIDAD', title: 'Puertas de Madera', sub: 'Madera, MDF y PVC', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600', cat: 'puertas' },
+{ badge: 'DISEÑO', title: 'Ventanas Personalizadas', sub: 'Madera, PVC y aluminio', image: 'https://images.unsplash.com/photo-1503708928676-1cb794ad65fa?w=600', cat: 'ventanas' },
+{ badge: 'MEDIDA', title: 'Muebles a Medida', sub: 'Para hogar y oficina', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600', cat: 'muebles' }
+];
+const catLabels = { puertas: 'Puertas', ventanas: 'Ventanas', muebles: 'Muebles y Melaminas', portones: 'Portones Eléctricos', tableros: 'Tableros y Chapas', accesorios: 'Accesorios' };
+/* ═══ PRODUCTOS CON IMÁGENES TEMÁTICAS ═══ */
+const products = [
+{
+id: 1,
+sku: 'MD-PUE-001',
+name: 'Puerta de Madera Moderna',
+price: 850,
+cat: 'puertas',
+img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900',
+images: [
+'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900',
+'https://images.unsplash.com/photo-1517646331032-9e8563c523a1?w=900',
+'https://images.unsplash.com/photo-1595429035839-c99c298ffdde?w=900'
+],
+desc: 'Puerta de madera de alta calidad con diseño moderno.',
+description: '<p>Puerta fabricada en <strong>madera de primera calidad</strong> con acabados modernos. Disponible en madera natural, madera ingenieril, MDF y PVC. Diseñada para interiores con estilo y durabilidad.</p><p>Acabados personalizables según tus preferencias. Instalación profesional incluida. Ideal para dormitorios, baños y espacios interiores.</p>',
+details: { Material: 'Madera, MDF o PVC', Acabado: 'Barniz o laca', Tipo: 'Interior moderna', Instalación: 'Incluida' },
+colors: [{ hex: '#8b6f47', name: 'Madera Natural' }, { hex: '#5c4a3d', name: 'Nogal' }, { hex: '#d4c5b5', name: 'Blanco' }],
+sizes: ['0.80m x 2.00m', '0.90m x 2.10m', '1.00m x 2.10m', 'A medida'],
+pairsWith: [6, 4]
+},
+{
+id: 2,
+sku: 'MD-VEN-002',
+name: 'Ventana de PVC con Vidrio',
+price: 650,
+cat: 'ventanas',
+img: 'https://images.unsplash.com/photo-1503708928676-1cb794ad65fa?w=900',
+images: [
+'https://images.unsplash.com/photo-1503708928676-1cb794ad65fa?w=900',
+'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=900'
+],
+desc: 'Ventana de PVC con excelente aislamiento térmico y acústico.',
+description: '<p>Ventana fabricada en <strong>PVC de alta resistencia</strong> con vidrio doble. Excelente aislamiento térmico y acústico. Disponible en madera, PVC y aluminio según tus necesidades.</p><p>Diseño moderno y funcional. Fácil mantenimiento y larga durabilidad. Ideal para hogares y oficinas.</p>',
+details: { Material: 'PVC, madera o aluminio', Vidrio: 'Doble o simple', Tipo: 'Corrediza o batiente', Garantía: '5 años' },
+colors: [{ hex: '#ffffff', name: 'Blanco' }, { hex: '#8b6f47', name: 'Madera' }, { hex: '#4a4a4a', name: 'Gris' }],
+sizes: ['1.00m x 1.00m', '1.20m x 1.20m', '1.50m x 1.50m', 'A medida'],
+pairsWith: [1, 6]
+},
+{
+id: 3,
+sku: 'MD-MUE-003',
+name: 'Mueble de Cocina en Melamina',
+price: 2500,
+cat: 'muebles',
+img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=900',
+images: ['https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=900'],
+desc: 'Mueble de cocina diseñado a medida en melamina de alta calidad.',
+description: '<p>Mueble de cocina fabricado en <strong>melamina de primera calidad</strong>. Diseño personalizado según las medidas de tu espacio. Incluye gabinetes superiores e inferiores.</p><p>Amplia variedad de colores y acabados. Herrajes de alta resistencia. Instalación profesional incluida. Transforma tu cocina en un espacio funcional y moderno.</p>',
+details: { Material: 'Melamina 18mm', Herrajes: 'Bisagras amortiguadas', Acabado: 'Mate o brillante', Garantía: '2 años' },
+colors: [{ hex: '#d4c5b5', name: 'Blanco' }, { hex: '#8b6f47', name: 'Madera' }, { hex: '#4a4a4a', name: 'Gris' }],
+sizes: ['Cocina pequeña', 'Cocina mediana', 'Cocina grande', 'A medida'],
+pairsWith: [6, 5]
+},
+{
+id: 4,
+sku: 'MD-POR-004',
+name: 'Portón Eléctrico Automatizado',
+price: 3500,
+cat: 'portones',
+img: 'https://images.unsplash.com/photo-1621255169746-42c0a398b548?w=900',
+images: ['https://images.unsplash.com/photo-1621255169746-42c0a398b548?w=900'],
+desc: 'Portón eléctrico con sistema de automatización y control remoto.',
+description: '<p>Portón eléctrico con <strong>sistema de automatización completo</strong>. Incluye motor, control remoto y accesorios de seguridad. Fabricado en metal con acabados en madera o pintura.</p><p>Instalación profesional incluida. Sistema de seguridad con sensores. Garantía en motor y mano de obra. Seguridad y comodidad para tu hogar.</p>',
+details: { Material: 'Metal con acabado', Motor: 'Incluido', Control: '2 controles remotos', Instalación: 'Incluida' },
+colors: [{ hex: '#5c3a21', name: 'Madera' }, { hex: '#2a2a2a', name: 'Negro' }, { hex: '#8b8b8b', name: 'Gris' }],
+sizes: ['3.00m x 2.00m', '4.00m x 2.20m', '5.00m x 2.50m', 'A medida'],
+pairsWith: [6, 1]
+},
+{
+id: 5,
+sku: 'MD-TAB-005',
+name: 'Tablero de Madera Contrachapada',
+price: 180,
+cat: 'tableros',
+img: 'https://images.unsplash.com/photo-1610505466122-b1a6e2ab8f1f?w=900',
+images: ['https://images.unsplash.com/photo-1610505466122-b1a6e2ab8f1f?w=900'],
+desc: 'Tablero de madera contrachapada de alta calidad.',
+description: '<p>Tablero de <strong>madera contrachapada</strong> de primera calidad. Disponible en diferentes espesores y acabados. Ideal para muebles, revestimientos y proyectos de carpintería.</p><p>Corte gratuito en las medidas que necesites. Amplia variedad de chapas y texturas. Asesoría técnica incluida.</p>',
+details: { Material: 'Madera contrachapada', Espesor: '6mm a 18mm', Acabado: 'Natural o enchapado', Corte: 'Gratuito' },
+colors: [{ hex: '#8b6f47', name: 'Natural' }, { hex: '#a0826d', name: 'Roble' }, { hex: '#5c4a3d', name: 'Nogal' }],
+sizes: ['1.22m x 2.44m', 'Corte a medida', 'Medio tablero'],
+pairsWith: [3, 6]
+},
+{
+id: 6,
+sku: 'MD-ACC-006',
+name: 'Set de Accesorios y Herrajes',
+price: 120,
+cat: 'accesorios',
+img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900',
+images: ['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900'],
+desc: 'Set completo de accesorios: manijas, bisagras y corredizos.',
+description: '<p>Set completo de <strong>accesorios y herrajes</strong> para puertas y muebles. Incluye manijas, bisagras, corredizos y más. Productos de alta calidad y durabilidad.</p><p>Disponibles en diferentes acabados: cromo, bronce, negro mate. Compatibles con todos nuestros productos. Venta individual o por set.</p>',
+details: { Material: 'Metal de alta calidad', Acabado: 'Cromo, bronce o negro', Tipo: 'Universal', Garantía: '1 año' },
+colors: [{ hex: '#c0c0c0', name: 'Cromo' }, { hex: '#8b6f47', name: 'Bronce' }, { hex: '#2a2a2a', name: 'Negro' }],
+sizes: ['Set básico', 'Set completo', 'Individual'],
+pairsWith: [1, 2, 3]
+}
+];
+const App = {
+view: 'home',
+filter: 'all',
+cart: JSON.parse(localStorage.getItem('maradoors_cart') || '[]'),
+product: null,
+previousView: 'home',
+selColor: null,
+selSize: null,
+init() {
+this.renderMenu();
+this.renderHome();
+this.renderShop();
+this.renderAbout();
+this.updateCart();
+const searchMobile = document.getElementById('search-input');
+const searchDesk = document.getElementById('search-input-desktop');
+const onSearchInput = (val) => {
+if (searchMobile) searchMobile.value = val;
+if (searchDesk) searchDesk.value = val;
+this.onSearch(val);
+};
+if (searchMobile) searchMobile.addEventListener('input', (e) => onSearchInput(e.target.value));
+if (searchDesk) searchDesk.addEventListener('input', (e) => onSearchInput(e.target.value));
+const devUrl = CONFIG.developer?.url || '#';
+['developer-link', 'footer-developer'].forEach(id => {
+const el = document.getElementById(id);
+if (el) el.href = devUrl;
+});
+const yearEl = document.getElementById('footer-year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
+window.addEventListener('resize', () => this.onResize());
+this.onResize();
+this.setDesktopNav('home');
+},
+isMobile() { return window.innerWidth < 769; },
+onResize() {
+document.body.classList.toggle('desktop', !this.isMobile());
+if (!this.isMobile() && document.body.classList.contains('product-open')) {
+document.getElementById('app-header').style.display = '';
+}
+},
+go(view, opts = {}) {
+this.closeMenu();
+this.closeCart();
+if (view !== 'product') {
+document.body.classList.remove('product-open');
+document.getElementById('app-header').style.display = '';
+}
+this.view = view;
+document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+const el = document.getElementById('view-' + view);
+if (el) el.classList.add('active');
+document.querySelectorAll('.tab').forEach(t => {
+t.classList.toggle('active', t.dataset.view === view && view !== 'menu');
+});
+if (view === 'shop') {
+if (opts.cat) this.filter(opts.cat);
+else this.renderShopGrid();
+}
+if (view === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
+if (view === 'about') window.scrollTo({ top: 0 });
+this.setDesktopNav(view);
+},
+setDesktopNav(view) {
+document.querySelectorAll('.desktop-nav button').forEach(b => {
+b.classList.toggle('active', b.dataset.nav === view);
+});
+},
+openProduct(id) {
+const p = products.find(x => x.id === Number(id));
+if (!p) return;
+this.previousView = document.body.classList.contains('product-open') ? this.previousView : this.view;
+this.product = p;
+this.selColor = null;
+this.selSize = null;
+document.body.classList.add('product-open');
+document.getElementById('app-header').style.display = this.isMobile() ? 'none' : '';
+document.getElementById('pd-main-img').src = p.images[0];
+document.getElementById('pd-thumbs').innerHTML = p.images.map((src, i) =>
+`<button type="button" class="pd-thumb${i === 0 ? ' active' : ''}" data-idx="${i}" onclick="App.setImage(this)"><img src="${src}" alt=""></button>`
+).join('');
+document.getElementById('pd-cat-label').textContent = catLabels[p.cat];
+document.getElementById('pd-name').textContent = p.name;
+document.getElementById('pd-sku').textContent = p.sku;
+document.getElementById('pd-price').textContent = 'Bs. ' + p.price;
+document.getElementById('pd-price-sticky').textContent = 'Bs. ' + p.price;
+const priceBtn = document.getElementById('pd-price-btn');
+if (priceBtn) priceBtn.textContent = 'Bs. ' + p.price;
+document.getElementById('panel-desc').innerHTML = p.description;
+document.getElementById('panel-details').innerHTML = '<table class="detail-table">' +
+Object.entries(p.details).map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('') + '</table>';
+document.getElementById('pd-colors').innerHTML = p.colors.map((c, i) =>
+`<button type="button" class="color-btn" style="background:${c.hex}" title="${c.name}" data-idx="${i}" onclick="App.pickColor(${i})"></button>`
+).join('');
+document.getElementById('pd-sizes').innerHTML = p.sizes.map(s =>
+`<button type="button" class="size-btn" onclick="App.pickSize(this)">${s}</button>`
+).join('');
+this.renderCombine(p.pairsWith || []);
+this.switchTab('desc');
+document.getElementById('view-product').scrollTop = 0;
+window.scrollTo(0, 0);
+document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+document.getElementById('view-product').classList.add('active');
+document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+},
+closeProduct() {
+document.body.classList.remove('product-open');
+document.getElementById('app-header').style.display = '';
+this.go(this.previousView || 'shop');
+},
+setImage(btn) {
+const idx = Number(btn.dataset.idx);
+const img = btn.querySelector('img');
+if (!img) return;
+document.getElementById('pd-main-img').src = img.src;
+document.querySelectorAll('.pd-thumb').forEach((t, i) => t.classList.toggle('active', i === idx));
+},
+pickColor(idx) {
+this.selColor = this.product.colors[idx];
+document.querySelectorAll('.color-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+},
+pickSize(btn) {
+document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+btn.classList.add('active');
+this.selSize = btn.textContent;
+},
+switchTab(tab) {
+document.querySelectorAll('.pd-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+document.querySelectorAll('.pd-panel').forEach(p => p.classList.remove('active'));
+document.getElementById('panel-' + tab).classList.add('active');
+},
+renderCombine(ids) {
+const items = ids.map(id => products.find(p => p.id === id)).filter(Boolean);
+document.getElementById('pd-combine').innerHTML = items.length ? items.map(p =>
+`<button type="button" class="combine-card" onclick="App.openProduct(${p.id})">
+<img src="${p.img}" alt="${p.name}">
+<span>${p.name}</span>
+<em>Bs. ${p.price}</em>
+</button>`
+).join('') : '<p style="color:var(--muted);font-size:0.85rem;">Próximamente más combinaciones.</p>';
+},
+addToCart() {
+if (!this.selColor || !this.selSize) {
+this.toast('Selecciona acabado y medida');
+return;
+}
+const p = this.product;
+this.cart.push({
+id: p.id,
+sku: p.sku,
+name: p.name,
+price: p.price,
+img: p.img,
+size: this.selSize,
+color: this.selColor.name,
+colorHex: this.selColor.hex
+});
+this.updateCart();
+localStorage.setItem('maradoors_cart', JSON.stringify(this.cart));
+this.toast('Añadido al pedido');
+setTimeout(() => this.openCart(), 400);
+},
+openMenu() {
+document.getElementById('menu-sidebar').classList.add('open');
+document.getElementById('overlay').classList.add('show');
+document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === 'menu'));
+},
+closeMenu() {
+document.getElementById('menu-sidebar').classList.remove('open');
+if (!document.getElementById('cart-panel').classList.contains('open')) {
+document.getElementById('overlay').classList.remove('show');
+}
+},
+openCart() {
+this.closeMenu();
+document.getElementById('cart-panel').classList.add('open');
+document.getElementById('overlay').classList.add('show');
+document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === 'cart'));
+},
+closeCart() {
+document.getElementById('cart-panel').classList.remove('open');
+document.getElementById('overlay').classList.remove('show');
+},
+closeAll() {
+this.closeMenu();
+this.closeCart();
+},
+updateCart() {
+const n = this.cart.length;
+document.getElementById('cart-badge').textContent = n;
+['cart-badge-desk', 'cart-badge-pd'].forEach(id => {
+const el = document.getElementById(id);
+if (el) el.textContent = n;
+});
+let total = 0;
+const box = document.getElementById('cart-items');
+if (!this.cart.length) {
+box.innerHTML = '<p style="text-align:center;color:var(--muted);padding:40px 0;">Tu pedido está vacío</p>';
+} else {
+box.innerHTML = this.cart.map((item, i) => {
+total += item.price;
+return `<div class="cart-item">
+<img src="${item.img}" alt="">
+<div style="flex:1;">
+<p style="font-weight:600;font-size:0.85rem;">${item.name}</p>
+<p style="font-size:0.7rem;color:var(--dim);">SKU ${item.sku} · ${item.size} · ${item.color}</p>
+<p style="font-weight:700;margin-top:4px;color:var(--accent);">Bs. ${item.price}</p>
+</div>
+<button type="button" class="icon-btn" style="width:36px;height:36px;" onclick="App.removeCart(${i})"><i class="fas fa-trash-alt"></i></button>
+</div>`;
+}).join('');
+}
+document.getElementById('cart-total').textContent = 'Bs. ' + total;
+},
+removeCart(i) {
+this.cart.splice(i, 1);
+localStorage.setItem('maradoors_cart', JSON.stringify(this.cart));
+this.updateCart();
+},
+whatsapp() {
+const phone = CONFIG.phone;
+let msg;
+if (this.cart.length) {
+const lines = this.cart.map(p => `• ${p.name} (SKU: ${p.sku}) — Medida ${p.size}, ${p.color}`).join('\n');
+msg = ` *PEDIDO MARA DOORS*\n${lines}\n*Total estimado: ${document.getElementById('cart-total').textContent}*`;
+} else {
+msg = 'Hola Mara Doors, me gustaría más información sobre sus productos de carpintería.';
+}
+window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
+},
+whatsappHelp() {
+const msg = 'Hola Mara Doors, quiero consultar disponibilidad y precios. ¡Diseñamos espacios, creamos soluciones!';
+window.open('https://wa.me/' + CONFIG.phone + '?text=' + encodeURIComponent(msg), '_blank');
+},
+toast(msg) {
+const t = document.getElementById('toast');
+t.textContent = msg;
+t.classList.add('show');
+setTimeout(() => t.classList.remove('show'), 2500);
+},
+onSearch(q) {
+q = q.trim().toLowerCase();
+if (!q) {
+if (this.view === 'shop') this.renderShopGrid();
+if (this.view === 'home') this.renderGrid('home-featured', products.slice(0, 4));
+return;
+}
+this.go('shop');
+const found = products.filter(p =>
+p.name.toLowerCase().includes(q) ||
+p.sku.toLowerCase().includes(q) ||
+p.cat.includes(q)
+);
+this.renderGrid('shop-grid', found);
+document.getElementById('shop-count').textContent = '(' + found.length + ' resultados)';
+},
+filter(cat) {
+this.filter = cat;
+document.querySelectorAll('.filter-chip').forEach(b =>
+b.classList.toggle('active', b.dataset.cat === cat)
+);
+const data = cat === 'all' ? products : products.filter(p => p.cat === cat);
+this.renderGrid('shop-grid', data);
+document.getElementById('shop-count').textContent = '(' + data.length + ' productos)';
+},
+renderGrid(id, data) {
+const g = document.getElementById(id);
+g.innerHTML = data.length ? data.map(p => this.productCard(p)).join('') :
+'<p class="empty">No hay productos.</p>';
+},
+productCard(p) {
+return `<button type="button" class="card" onclick="App.openProduct(${p.id})">
+<div class="card-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+<p class="sku">${p.sku}</p>
+<h4>${p.name}</h4>
+<div class="row"><span class="price">Bs. ${p.price}</span><span style="font-size:0.65rem;color:var(--muted);">${catLabels[p.cat]}</span></div>
+</button>`;
+},
+renderMenu() {
+const promos = promotions.map(pr =>
+`<div class="menu-promo" onclick="App.filter('${pr.cat}'); App.go('shop'); App.closeMenu();">
+<strong>${pr.badge} — ${pr.title}</strong><span>${pr.sub}</span>
+</div>`
+).join('');
+const cats = categories.map(c =>
+`<button type="button" class="menu-link" onclick="App.filter('${c.id}'); App.go('shop'); App.closeMenu();">
+<i class="fas fa-tag"></i> ${c.name}
+</button>`
+).join('');
+document.getElementById('menu-content').innerHTML = `
+<p class="menu-label">Promociones</p>${promos}
+<p class="menu-label">Categorías</p>${cats}
+<p class="menu-label">Catálogo</p>
+<button type="button" class="menu-link" onclick="App.go('shop'); App.closeMenu();"><i class="fas fa-store"></i> Ver catálogo</button>
+<button type="button" class="menu-link" onclick="App.go('about'); App.closeMenu();"><i class="fas fa-info-circle"></i> Sobre Mara Doors</button>
+<button type="button" class="menu-link" onclick="App.whatsapp(); App.closeMenu();"><i class="fab fa-whatsapp"></i> WhatsApp: 770 45408</button>
+`;
+},
+renderHome() {
+document.getElementById('home-promos').innerHTML = promotions.map(pr =>
+`<article class="promo-card" onclick="App.filter('${pr.cat}'); App.go('shop');">
+<img src="${pr.image}" alt=""><div class="promo-body"><span class="badge">${pr.badge}</span><strong>${pr.title}</strong><p>${pr.sub}</p></div>
+</article>`
+).join('');
+document.getElementById('home-cats').innerHTML = categories.map(c =>
+`<article class="cat-card" onclick="App.filter('${c.id}'); App.go('shop');">
+<img src="${c.image}" alt="${c.name}"><span>${c.name}</span>
+</article>`
+).join('');
+this.renderGrid('home-featured', products.slice(0, 4));
+},
+renderShop() {
+const cats = ['all', ...categories.map(c => c.id)];
+document.getElementById('shop-filters').innerHTML = cats.map(c =>
+`<button type="button" class="filter-chip${c === 'all' ? ' active' : ''}" data-cat="${c}" onclick="App.filter('${c}')">${c === 'all' ? 'Todos' : catLabels[c]}</button>`
+).join('');
+this.renderShopGrid();
+},
+renderShopGrid() {
+this.filter(this.filter);
+},
+renderAbout() {
+const s = CONFIG.store;
+document.getElementById('about-content').innerHTML = `
+<div class="about-block"><h3>Nuestra historia</h3><p>${s.story}</p></div>
+<div class="about-block"><h3>Misión</h3><p>${s.mission}</p></div>
+<div class="about-block"><h3>¿Por qué elegir Mara Doors?</h3>
+<div style="display:grid;gap:10px;margin-top:12px;">
+<div class="info-card"><i class="fas fa-check-circle"></i><div><strong>Productos de calidad</strong><span>Materiales seleccionados y acabados profesionales.</span></div></div>
+<div class="info-card"><i class="fas fa-ruler-combined"></i><div><strong>Diseño a medida</strong><span>Personalizamos cada producto según tus necesidades.</span></div></div>
+<div class="info-card"><i class="fas fa-truck"></i><div><strong>Corte gratuito y entrega inmediata</strong><span>Servicio rápido y sin costo adicional.</span></div></div>
+<div class="info-card"><i class="fas fa-users"></i><div><strong>Atención personalizada</strong><span>Asesoramiento experto en cada proyecto.</span></div></div>
+</div>
+</div>
+<div class="about-info">
+<div class="info-card"><i class="fas fa-clock"></i><div><strong>Horario</strong><span>${s.hours}</span></div></div>
+<div class="info-card"><i class="fas fa-map-marker-alt"></i><div><strong>Ubicación</strong><span>${s.address}</span></div></div>
+<div class="info-card"><i class="fas fa-phone"></i><div><strong>Teléfonos</strong><span>770 45408 / 771 95187 / 771 93988</span></div></div>
+<div class="info-card"><i class="fab fa-instagram"></i><div><strong>Instagram</strong><span>${s.instagram}</span></div></div>
+</div>
+`;
+}
+};
+document.addEventListener('DOMContentLoaded', () => App.init());
+</script>
+</body>
+</html>
